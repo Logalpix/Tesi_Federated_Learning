@@ -10,3 +10,5 @@ Per la comunicazione tra i nodi è stata usata la libreria libp2p.
 Per avviare l'apprendimento occorre lanciare da bash il comando docker-compose build e in seguito lo script ./start.sh, che si occuperà di avviare prima il nodo master per ottenerne l'indirizzo e in seguito i nodi worker, passando l'indirizzo del master come parametro. Per fermare e rimuovere i container occorre lanciare il comando docker-compose down.
 
 Durante la build verranno scaricati sia i moduli di Node.js necessari per il progetto, sia il dataset su cui viene effettuato il training, salvati rispettivamente nelle cartelle node_modules/ e data/ interne ai container. Nella stessa locazione verrà inoltre creata una cartella models/, dove vengono salvati i modelli su cui i nodi effettuano il training.
+
+AGGIORNAMENTO 13/12/2024: Attualmente il codice Python per l'apprendimento sembra funzionare, il dataset viene scaricato correttamente e sia il train loader che il test loader vengono creati. Tuttavia sto avendo dei problemi nella comunicazione tra i nodi, probabilmente derivante dal formato degli indirizzi IP da passare come parametro. Sto cercando di risolvere.

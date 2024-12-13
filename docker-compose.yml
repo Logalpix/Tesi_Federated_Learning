@@ -1,0 +1,45 @@
+services:
+  master:
+    build:
+      context: .
+      args:
+        NODE_TYPE: master
+    container_name: master_node
+    command: ["node", "federated_learning.js"]
+    runtime: nvidia # Abilita il supporto CUDA
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu] # Specifica che il container utilizza GPU
+    environment:
+      - NODE_TYPE=master
+      - NVIDIA_VISIBLE_DEVICES=all # Usa tutte le GPU disponibili
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    networks:
+      - federated_net
+    ports:
+      - "4000:4000" # Porta per la comunicazione tra i nodi
+
+  worker:
+    build: .
+    runtime: nvidia # Abilita il supporto CUDA
+    deploy:
+      replicas: 8 # Numero di nodi worker
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu] # Specifica che ogni worker utilizza GPU
+    environment:
+      - MASTER_ADDR=${MASTER_ADDR}
+      - NVIDIA_VISIBLE_DEVICES=all # Usa tutte le GPU disponibili
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    command: ["node", "federated_learning.js", "${MASTER_ADDR}"]
+    networks:
+      - federated_net
+    depends_on:
+      - master
+
+networks:
+  federated_net:
+    driver: bridge

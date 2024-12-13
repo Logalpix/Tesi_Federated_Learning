@@ -311,12 +311,12 @@ console.log('MY ADDRESS: ', node.getMultiaddrs(), '\n')
 
 
 if (process.argv.length >= 3){//worker
-	const master_multiadd = process.argv[2]
+	const master_multiadd = process.argv[2]?.trim().replace(/^\/\//, '/');
 	
 	master_id = get_peerid_from_multiadd(master_multiadd)
 
-	console.log("Master address: ", master_multiadd)
-	console.log("Master ID: ", master_id)
+	console.log("Master address:", master_multiadd)
+	console.log("Master ID:", master_id)
 
 	await python.ex`
 	logging.debug("Creazione train loader.")

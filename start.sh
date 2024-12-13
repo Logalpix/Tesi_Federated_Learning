@@ -16,7 +16,7 @@ done
 echo "Peer ID Master ottenuto: $MASTER_PEER_ID"
 
 # Aggiorna l'indirizzo del master nei comandi dei worker
-MASTER_ADDR="/ip4/${MASTER_IP}/tcp/4000${MASTER_PEER_ID}"
+MASTER_ADDR='//ip4/'${MASTER_IP}'/tcp/4000'${MASTER_PEER_ID}
 export MASTER_ADDR
 
 echo "MASTER_ADDR impostata a $MASTER_ADDR"

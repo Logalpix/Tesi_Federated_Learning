@@ -338,14 +338,14 @@ else{//master
 
 	console.log("Attendo creazione nodi worker.")
 	await delay(30000)
-	console.log("Avvio peer discovery.")
 
 	node.handle('/on_model_received_master', on_model_received_master)
+	
+	console.log("Avvio peer discovery.")
 	node.addEventListener('peer:discovery', async(evt) => {
-		
+		console.log("Multiaddr trovati: " + evt.detail.multiaddrs.length + "\n")
 		for(let i=0; i < evt.detail.multiaddrs.length; i++){
 			console.log("Evento discovery, iterazione n. " + i)
-			console.log("Numero multiaddr trovati: " + evt.detail.multiaddrs.length + "\n")
 			if(evt.detail.multiaddrs[i].toString().includes('p2p')){
 				console.log("Peer trovato.")
 				let peerid = get_peerid_from_multiadd(evt.detail.multiaddrs[i].toString())

@@ -23,6 +23,8 @@ services:
 
   worker:
     build: .
+    ports:
+      - "4000"
     runtime: nvidia # Abilita il supporto CUDA
     deploy:
       replicas: 8 # Numero di nodi worker

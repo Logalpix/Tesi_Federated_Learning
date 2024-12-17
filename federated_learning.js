@@ -372,7 +372,7 @@ else{//master
 	while(peer_id_known_peers.length < NUM_WORKERS){
 		await delay(1000)
 	}
-	console.log('Peers scoperti, attendo 30 secondi.')
+	console.log('Peer scoperti, attendo 30 secondi.')
 	
 	await delay(30000)
 	

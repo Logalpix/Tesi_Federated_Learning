@@ -368,15 +368,15 @@ else{//master
 		worker_models = [ MyModel().to('cpu') for _ in range(${NUM_WORKERS})]
 		master_model = MyModel().to('cpu')
 	`
-	
+	console.log("Dataset scaricato, attendo i peer.")
 	while(peer_id_known_peers.length < NUM_WORKERS){
 		await delay(1000)
 	}
-	console.log('Peers discovered, waiting 30 seconds.')
+	console.log('Peers scoperti, attendo 30 secondi.')
 	
 	await delay(30000)
 	
-	console.log('Waiting finished.')
+	console.log('Waiting terminato.')
 	
 	for (let i = 0; i < NUM_ROUNDS; i++){
 		await python.ex`

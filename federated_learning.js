@@ -371,6 +371,7 @@ else{//master
 	`
 	console.log("Dataset scaricato, attendo i peer.")
 	while(peer_id_known_peers.length < NUM_WORKERS){
+		console.log("Sono nel ciclo di waiting su ", peer_id_known_peers.length, " peer.")
 		await delay(1000)
 	}
 	console.log('Peer scoperti, attendo 30 secondi.')

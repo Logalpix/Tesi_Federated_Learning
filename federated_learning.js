@@ -311,6 +311,7 @@ console.log('MY ADDRESS: ', node.getMultiaddrs(), '\n')
 
 
 if (process.argv.length >= 3){//worker
+	console.log("MASTER_ADDR ricevuto dal worker: ", process.argv[2]);
 	const master_multiadd = process.argv[2]?.trim().replace(/^\/\//, '/');
 	
 	master_id = get_peerid_from_multiadd(master_multiadd)

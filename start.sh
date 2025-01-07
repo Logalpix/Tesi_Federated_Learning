@@ -5,6 +5,12 @@ docker-compose up -d master
 # Recupera l'indirizzo IP del nodo master
 MASTER_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' master_node)
 
+# Verifica che il nodo master sia pronto
+echo "Verifica che il nodo master sia pronto..."
+while ! docker logs master_node 2>&1 | grep -q "MY ADDRESS:"; do
+  sleep 1
+done
+
 # Attendi che il master generi il Peer ID
 echo "Ottenimento peer ID master..."
 MASTER_PEER_ID=""

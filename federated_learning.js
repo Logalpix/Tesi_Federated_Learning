@@ -344,6 +344,7 @@ else{//master
 	
 	console.log("Avvio peer discovery.")
 	node.addEventListener('peer:discovery', async(evt) => {
+		console.log("Sono nel codice della peer discovery.")
 		console.log(evt.detail)
 		console.log("Multiaddr trovati: " + evt.detail.multiaddrs.length + "\n")
 		for(let i=0; i < evt.detail.multiaddrs.length; i++){

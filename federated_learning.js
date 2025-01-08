@@ -342,10 +342,18 @@ else{//master
 
 	node.handle('/on_model_received_master', on_model_received_master)
 	
+	node.addEventListener('*', (evt) => {
+		console.log(`Evento catturato: ${evt.type}`);
+	});
+
+	node.addEventListener('peer:discovery:start', () => {
+		console.log("Discovery avviata.");
+	});
+
 	console.log("Avvio peer discovery.")
 	node.addEventListener('peer:discovery', async(evt) => {
 		console.log("Sono nel codice della peer discovery.")
-		console.log(evt.detail)
+		console.log("Dettagli:", evt.detail)
 		console.log("Multiaddr trovati: " + evt.detail.multiaddrs.length + "\n")
 		for(let i=0; i < evt.detail.multiaddrs.length; i++){
 			console.log("Evento discovery, iterazione n. " + i)
@@ -359,6 +367,7 @@ else{//master
 			}
 		}
 	})
+	console.log("Event listener registrato.")
 	
 	await python.ex`
 	test_loader = create_test_loader()

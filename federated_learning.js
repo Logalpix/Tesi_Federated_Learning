@@ -337,29 +337,23 @@ else{//master
 	const NUM_WORKERS = 8
 	const NUM_ROUNDS = 150
 
-	console.log("Attendo creazione nodi worker.")
-	await delay(30000)
+	//console.log("Attendo creazione nodi worker.")
+	//await delay(30000)
 
 	node.handle('/on_model_received_master', on_model_received_master)
-	
-	node.addEventListener('*', (evt) => {
-		console.log(`Evento catturato: ${evt.type}`);
-	});
-
-	node.addEventListener('peer:discovery:start', () => {
-		console.log("Discovery avviata.");
-	});
 
 	console.log("Avvio peer discovery.")
 	node.addEventListener('peer:discovery', async(evt) => {
 		console.log("Sono nel codice della peer discovery.")
-		console.log("Dettagli:", evt.detail)
 		console.log("Multiaddr trovati: " + evt.detail.multiaddrs.length + "\n")
 		for(let i=0; i < evt.detail.multiaddrs.length; i++){
 			console.log("Evento discovery, iterazione n. " + i)
-			if(evt.detail.multiaddrs[i].toString().includes('p2p')){
+			console.log("Dettagli multiaddr trovato: ", evt.detail.multiaddrs[i].toString())
+			console.log("Dettagli Peer ID:", evt.detail.id.toString())
+			if(evt.detail.multiaddrs[i].toString().includes('tcp')){
 				console.log("Peer trovato.")
-				let peerid = get_peerid_from_multiadd(evt.detail.multiaddrs[i].toString())
+				//let peerid = get_peerid_from_multiadd(evt.detail.multiaddrs[i].toString())
+				let peerid = evt.detail.id.toString()
 				if(peer_id_known_peers.includes(peerid) == false){
 					console.log("Aggiungo il peer.")
 					peer_id_known_peers.push(peerid)
@@ -418,6 +412,7 @@ else{//master
 		server_aggregate(master_model, worker_models)
 		test_loss, acc = test(master_model, test_loader)
 		print('%d-th round, test acc: %0.5f' % (${i}, acc))
+		logging.debug('%d-th round, test acc: %0.5f' % (${i}, acc))
 		
 		for name_file in list_files_in_dir:
 			os.remove(${path_dir_models} + name_file)

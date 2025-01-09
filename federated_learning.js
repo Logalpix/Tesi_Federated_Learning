@@ -237,6 +237,8 @@ def test(model, test_loader):
 	test_loss /= len(test_loader.dataset)
 	acc = correct / len(test_loader.dataset)
 
+	logging.debug(f"Test Loss: {test_loss:.4f}, Accuracy: {acc:.4f}")
+
 	return test_loss, acc
 
 

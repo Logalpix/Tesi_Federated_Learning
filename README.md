@@ -12,3 +12,5 @@ Per avviare l'apprendimento occorre lanciare da bash il comando docker-compose b
 Durante la build verranno scaricati sia i moduli di Node.js necessari per il progetto, sia il dataset su cui viene effettuato il training, salvati rispettivamente nelle cartelle node_modules/ e data/ interne ai container. Nella stessa locazione verrà inoltre creata una cartella models/, dove vengono salvati i modelli su cui i nodi effettuano il training.
 
 AGGIORNAMENTO 13/12/2024: Attualmente il codice Python per l'apprendimento sembra funzionare, il dataset viene scaricato correttamente e sia il train loader che il test loader vengono creati. Tuttavia sto avendo dei problemi nella comunicazione tra i nodi, probabilmente derivante dal formato degli indirizzi IP da passare come parametro. Sto cercando di risolvere.
+
+AGGIORNAMENTO 09/01/2025: Il problema relativo al formato degli indirizzi IP è stato risolto, così come quello della peer discovery. Ora l'apprendimento e lo scambio di informazioni tra i nodi sembrano funzionare correttamente.

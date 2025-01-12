@@ -18,6 +18,7 @@ services:
       - NVIDIA_DRIVER_CAPABILITIES=compute,utility
     volumes:
     - ./data:/app/data
+    - ./results:/app/results
     networks:
       - federated_net
     ports:
@@ -40,6 +41,7 @@ services:
       - NVIDIA_DRIVER_CAPABILITIES=compute,utility
     volumes:
     - ./data:/app/data
+    - ./results:/app/results
     command: ["node", "federated_learning.js", "${MASTER_ADDR}"]
     networks:
       - federated_net

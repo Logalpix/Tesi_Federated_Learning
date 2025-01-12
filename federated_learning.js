@@ -19,6 +19,7 @@ import AsyncLock from 'async-lock'
 const lock = new AsyncLock()
 var num_of_models_received = 0
 const path_dir_models = 'models/'
+const path_dir_results = 'results/'
 var master_id
 
 var peer_id_known_peers = []
@@ -237,7 +238,10 @@ def test(model, test_loader):
 	test_loss /= len(test_loader.dataset)
 	acc = correct / len(test_loader.dataset)
 
-	logging.debug(f"Test Loss: {test_loss:.4f}, Accuracy: {acc:.4f}")
+	container_id = os.getenv("HOSTNAME")
+	with open(f"results/test_log_{container_id}.csv", "a") as f:
+		f.write(f"{test_loss:.4f},{acc:.4f}\\n")
+		logging.debug(f"Test Loss: {test_loss:.4f}, Accuracy: {acc:.4f}")
 
 	return test_loss, acc
 
@@ -290,6 +294,10 @@ def create_test_loader():
 
 if (!fs.existsSync(path_dir_models)){
 	fs.mkdirSync(path_dir_models)
+}
+
+if (!fs.existsSync(path_dir_results)){
+	fs.mkdirSync(path_dir_results)
 }
 
 const my_ip = get_ip_addr()

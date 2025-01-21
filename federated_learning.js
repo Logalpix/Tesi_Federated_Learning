@@ -342,9 +342,6 @@ else{//master
 	const NUM_WORKERS = 8
 	const NUM_ROUNDS = 150
 
-	//console.log("Attendo creazione nodi worker.")
-	//await delay(30000)
-
 	node.handle('/on_model_received_master', on_model_received_master)
 
 	console.log("Avvio peer discovery.")
@@ -357,7 +354,6 @@ else{//master
 			console.log("Dettagli Peer ID:", evt.detail.id.toString())
 			if(evt.detail.multiaddrs[i].toString().includes('tcp')){
 				console.log("Peer trovato.")
-				//let peerid = get_peerid_from_multiadd(evt.detail.multiaddrs[i].toString())
 				let peerid = evt.detail.id.toString()
 				if(peer_id_known_peers.includes(peerid) == false){
 					console.log("Aggiungo il peer.")

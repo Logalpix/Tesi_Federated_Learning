@@ -24,10 +24,6 @@ var master_id
 
 var peer_id_known_peers = []
 
-function get_position_str(string, subString, index) {
-	return string.split(subString, index).join(subString).length
-}
-
 function get_ip_addr(){
 	const interfaces = os.networkInterfaces();
 	for (const name of Object.keys(interfaces)) {
@@ -42,7 +38,6 @@ function get_ip_addr(){
 }
 
 function get_peerid_from_multiadd(multiadd){
-	//return multiadd.substring(get_position_str(multiadd, '/', 6)+1, get_position_str(multiadd, '/', 7))
 	return multiadd.substring(multiadd.indexOf('/p2p/') + 5);
 }
 

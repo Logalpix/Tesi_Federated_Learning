@@ -1,8 +1,8 @@
 {
-  "name": "gossip_learning_discovery",
+  "name": "tesi_federated_learning",
   "version": "1.0.0",
   "description": "",
-  "main": "gossip_learning.js",
+  "main": "federated_learning.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

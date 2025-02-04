@@ -62,7 +62,7 @@ function delay(time) {
 } 
 
 async function on_model_received_master ({ stream }) {
-	console.log("on_model_received_master invocato.")
+	//console.log("on_model_received_master invocato.")
 	const communication_content = await pipe(
 		stream,
 		async function * (source) {
@@ -219,8 +219,11 @@ def test(model, test_loader):
 	model.eval()
 	test_loss = 0
 	correct = 0
+	batch_index = 0
+
 	with torch.no_grad():
 		for data, target in test_loader:
+			logging.debug(f"Processing batch {batch_index + 1}")
 			if torch.cuda.is_available():
 				data, target = data.cuda(), target.cuda()
 			else:
@@ -229,6 +232,7 @@ def test(model, test_loader):
 			test_loss += F.nll_loss(output, target, reduction='sum').item()
 			pred = output.argmax(dim=1, keepdim=True)
 			correct += pred.eq(target.view_as(pred)).sum().item()
+			batch_index += 1
 
 	test_loss /= len(test_loader.dataset)
 	acc = correct / len(test_loader.dataset)
@@ -404,6 +408,7 @@ else{//master
 		while(num_of_models_received != NUM_WORKERS){
 			await delay(1000)
 		}
+		console.log('Modelli ricevuti da tutti i worker.')
 
 		await python.ex`
 		list_files_in_dir = os.listdir(${path_dir_models})
@@ -411,8 +416,8 @@ else{//master
 			worker_models[i].load_state_dict(torch.load(${path_dir_models} + list_files_in_dir[i]))
 
 		server_aggregate(master_model, worker_models)
+		logging.debug('Aggregazione effettuata, test in corso...')
 		test_loss, acc = test(master_model, test_loader)
-		print('%d-th round, test acc: %0.5f' % (${i}, acc))
 		logging.debug('%d-th round, test acc: %0.5f' % (${i}, acc))
 		
 		for name_file in list_files_in_dir:

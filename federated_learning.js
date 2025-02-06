@@ -136,6 +136,7 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data.dataset import Dataset   
 torch.backends.cudnn.benchmark=True
+from sklearn.metrics import precision_score, recall_score, f1_score
 
 import os
 import logging
@@ -220,6 +221,8 @@ def test(model, test_loader):
 	test_loss = 0
 	correct = 0
 	batch_index = 0
+	all_preds = []
+	all_targets = []
 
 	with torch.no_grad():
 		for data, target in test_loader:
@@ -231,16 +234,22 @@ def test(model, test_loader):
 			output = model(data)
 			test_loss += F.nll_loss(output, target, reduction='sum').item()
 			pred = output.argmax(dim=1, keepdim=True)
+			all_preds.extend(pred.cpu().numpy())
+			all_targets.extend(target.cpu().numpy())
 			correct += pred.eq(target.view_as(pred)).sum().item()
 			batch_index += 1
 
 	test_loss /= len(test_loader.dataset)
 	acc = correct / len(test_loader.dataset)
 
+	precision = precision_score(all_targets, all_preds, average='weighted')
+	recall = recall_score(all_targets, all_preds, average='weighted')
+	f1 = f1_score(all_targets, all_preds, average='weighted')
+
 	container_id = os.getenv("HOSTNAME")
 	with open(f"results/test_log_{container_id}.csv", "a") as f:
-		f.write(f"{test_loss:.4f},{acc:.4f}\\n")
-		logging.debug(f"Test Loss: {test_loss:.4f}, Accuracy: {acc:.4f}")
+		f.write(f"{test_loss:.4f},{acc:.4f},{precision:.4f},{recall:.4f},{f1:.4f}\\n")
+		logging.debug(f"Test Loss: {test_loss:.4f}, Accuracy: {acc:.4f}, Precision: {precision:.4f}, Recall: {recall:.4f}, F1: {f1:.4f}")
 
 	return test_loss, acc
 
@@ -344,7 +353,7 @@ if (process.argv.length >= 3){//worker
 }
 else{//master
 	const NUM_WORKERS = 8
-	const NUM_ROUNDS = 150
+	const NUM_ROUNDS = 50
 
 	node.handle('/on_model_received_master', on_model_received_master)
 

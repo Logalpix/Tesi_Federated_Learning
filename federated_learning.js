@@ -86,7 +86,7 @@ async function on_model_received_master ({ stream }) {
 }
 
 async function on_model_received_worker ({ stream }) {
-	console.log("on_model_received_worker invocato.")
+	//console.log("on_model_received_worker invocato.")
 	const communication_content = await pipe(
 		stream,
 		async function * (source) {
@@ -359,12 +359,12 @@ else{//master
 
 	console.log("Avvio peer discovery.")
 	node.addEventListener('peer:discovery', async(evt) => {
-		console.log("Sono nel codice della peer discovery.")
-		console.log("Multiaddr trovati: " + evt.detail.multiaddrs.length + "\n")
+		//console.log("Sono nel codice della peer discovery.")
+		//console.log("Multiaddr trovati: " + evt.detail.multiaddrs.length + "\n")
 		for(let i=0; i < evt.detail.multiaddrs.length; i++){
-			console.log("Evento discovery, iterazione n. " + i)
-			console.log("Dettagli multiaddr trovato: ", evt.detail.multiaddrs[i].toString())
-			console.log("Dettagli Peer ID:", evt.detail.id.toString())
+			//console.log("Evento discovery, iterazione n. " + i)
+			//console.log("Dettagli multiaddr trovato: ", evt.detail.multiaddrs[i].toString())
+			//console.log("Dettagli Peer ID:", evt.detail.id.toString())
 			if(evt.detail.multiaddrs[i].toString().includes('tcp')){
 				console.log("Peer trovato.")
 				let peerid = evt.detail.id.toString()
@@ -375,7 +375,7 @@ else{//master
 			}
 		}
 	})
-	console.log("Event listener registrato.")
+	//console.log("Event listener registrato.")
 	
 	await python.ex`
 	test_loader = create_test_loader()
@@ -390,7 +390,7 @@ else{//master
 	`
 	console.log("Dataset scaricato, attendo i peer.")
 	while(peer_id_known_peers.length < NUM_WORKERS){
-		console.log("Sono nel ciclo di waiting su ", peer_id_known_peers.length, " peer.")
+		//console.log("Sono nel ciclo di waiting su ", peer_id_known_peers.length, " peer.")
 		await delay(1000)
 	}
 	console.log('Peer scoperti, attendo 30 secondi.')

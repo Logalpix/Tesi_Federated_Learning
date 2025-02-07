@@ -353,7 +353,7 @@ if (process.argv.length >= 3){//worker
 }
 else{//master
 	const NUM_WORKERS = 8
-	const NUM_ROUNDS = 50
+	const NUM_ROUNDS = 150
 
 	node.handle('/on_model_received_master', on_model_received_master)
 
